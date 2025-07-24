@@ -11,7 +11,7 @@ interface QuestionProps {
   bestAnswerId?: UniqueEntityID;
   content: string;
   slug: Slug;
-  authorId: string;
+  authorId: UniqueEntityID;
   createdAt: Date;
   updatedAt?: Date;
 }

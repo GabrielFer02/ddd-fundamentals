@@ -1,10 +1,11 @@
-import { Answer } from '../entities/answer.js';
-import { AnswersRepository } from '../repositories/answers-repository.js';
+import { AnswersRepository } from '@/domain/forum/application/repositories/answers-repository.js';
+
+import { Answer } from '../../enterprise/entities/answer.js';
 import { AnswerQuestionUseCase } from './answer-question.js';
 
 const fakeAnswersRepository: AnswersRepository = {
   create: async (answer: Answer) => {
-    return ;
+    return;
   },
 };
 

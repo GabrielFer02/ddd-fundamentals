@@ -1,6 +1,7 @@
-import { UniqueEntityID } from '../../core/entities/unique-entity-id.js';
-import { Answer } from '../entities/answer.js';
-import { AnswersRepository } from '../repositories/answers-repository.js';
+import { UniqueEntityID } from '@/core/entities/unique-entity-id.js';
+import { AnswersRepository } from '@/domain/forum/application/repositories/answers-repository.js';
+
+import { Answer } from '../../enterprise/entities/answer.js';
 
 interface AnswerQuestionUseCaseRequest {
   instructorId: string;
