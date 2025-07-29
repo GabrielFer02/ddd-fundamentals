@@ -26,5 +26,5 @@
     "lib": ["es2022"],
     "types": ["vitest/globals"]
   },
-  "include": ["src"]
+  // "include": ["src"]
 }
