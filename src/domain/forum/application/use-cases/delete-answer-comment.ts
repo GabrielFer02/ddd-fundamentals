@@ -1,13 +1,19 @@
 import { Either, left, right } from '@/core/either.js';
 import { AnswerCommentsRepository } from '@/domain/forum/application/repositories/answer-comments-repository.js';
 
+import { NotAllowedError } from './errors/not-allowed-error.js';
+import { ResourceNotFoundError } from './errors/resource-not-found-error.js';
+
 interface DeleteAnswerCommentUseCaseRequest {
   authorId: string;
   answerCommentId: string;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
-type DeleteAnswerCommentUseCaseResponse = Either<string, {}>
+type DeleteAnswerCommentUseCaseResponse = Either<
+  ResourceNotFoundError | NotAllowedError,
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
+  {}
+>;
 
 export class DeleteAnswerCommentUseCase {
   constructor(private answerCommentsRepository: AnswerCommentsRepository) {}
@@ -21,11 +27,11 @@ export class DeleteAnswerCommentUseCase {
     );
 
     if (!answerComment) {
-      return left('Answer comment not found.');
+      return left(new ResourceNotFoundError());
     }
 
     if (answerComment.authorId.toString() !== authorId) {
-      return left('Not allowed');
+      return left(new NotAllowedError());
     }
 
     await this.answerCommentsRepository.delete(answerComment);
