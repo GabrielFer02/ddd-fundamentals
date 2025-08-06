@@ -27,7 +27,7 @@ export class DeleteAnswerCommentUseCase {
     );
 
     if (!answerComment) {
-      return left(new ResourceNotFoundError());
+     return left(new ResourceNotFoundError())
     }
 
     if (answerComment.authorId.toString() !== authorId) {
