@@ -1,8 +1,6 @@
 import { makeQuestion } from 'test/factories/make-question.js';
 import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository.js';
 
-import { UniqueEntityID } from '@/core/entities/unique-entity-id.js';
-import { Question } from '@/domain/forum/enterprise/entities/question.js';
 import { Slug } from '@/domain/forum/enterprise/entities/value-objects/slug.js';
 
 import { GetQuestionBySlugUseCase } from './get-question-by-slug.js';
@@ -21,11 +19,11 @@ describe('Get Question By Slug', () => {
 
     await inMemoryQuestionsRepository.create(newQuestion);
 
-    const { question } = await sut.execute({
+    const result = await sut.execute({
       slug: 'example-question',
     });
 
-    expect(question.id).toBeTruthy();
-    expect(question.title).toEqual(newQuestion.title);
+    expect(result.value?.question.id).toBeTruthy();
+    expect(result.value.question.title).toEqual(newQuestion.title);
   });
 });

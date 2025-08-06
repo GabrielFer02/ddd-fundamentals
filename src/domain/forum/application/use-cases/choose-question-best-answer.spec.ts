@@ -6,6 +6,8 @@ import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questio
 import { UniqueEntityID } from '@/core/entities/unique-entity-id.js';
 import { ChooseQuestionBestAnswerUseCase } from '@/domain/forum/application/use-cases/choose-question-best-answer.js';
 
+import { NotAllowedError } from './errors/not-allowed-error.js';
+
 let inMemoryQuestionsRepository: InMemoryQuestionsRepository;
 let inMemoryAnswersRepository: InMemoryAnswersRepository;
 let sut: ChooseQuestionBestAnswerUseCase;
@@ -53,11 +55,12 @@ describe('Choose Question Best Answer', () => {
     await inMemoryQuestionsRepository.create(question);
     await inMemoryAnswersRepository.create(answer);
 
-    await expect(() =>
-      sut.execute({
-        answerId: answer.id.toString(),
-        authorId: 'author-2',
-      }),
-    ).rejects.toBeInstanceOf(Error);
+    const result = await sut.execute({
+      answerId: answer.id.toString(),
+      authorId: 'author-2',
+    });
+
+    expect(result.isLeft()).toBe(true);
+    expect(result.value).toBeInstanceOf(NotAllowedError);
   });
 });

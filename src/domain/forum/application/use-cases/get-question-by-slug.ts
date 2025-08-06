@@ -24,9 +24,9 @@ export class GetQuestionBySlugUseCase {
     const question = await this.questionsRepository.findBySlug(slug);
 
     if (!question) {
-      return left(new ResourceNotFoundError())
+      return left(new ResourceNotFoundError());
     }
 
-    return right({question})
+    return right({ question });
   }
 }
