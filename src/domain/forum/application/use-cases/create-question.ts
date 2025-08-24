@@ -3,6 +3,7 @@ import { UniqueEntityID } from '@/core/entities/unique-entity-id.js';
 import { Question } from '@/domain/forum/enterprise/entities/question.js';
 
 import { QuestionAttachment } from '../../enterprise/entities/question-attachment.js';
+import { QuestionAttachmentList } from '../../enterprise/entities/question-attachment-list.js';
 import { QuestionsRepository } from '../repositories/questions-repository.js';
 
 interface CreateQuestionUseCaseRequest {
@@ -41,7 +42,7 @@ export class CreateQuestionUseCase {
       });
     });
 
-    question.attachments = questionAttachments;
+    question.attachments = new QuestionAttachmentList(questionAttachments);
 
     await this.questionsRepository.create(question);
 
