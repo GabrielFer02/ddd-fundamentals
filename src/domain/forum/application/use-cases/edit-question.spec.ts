@@ -4,9 +4,9 @@ import { InMemoryQuestionAttachmentsRepository } from 'test/repositories/in-memo
 import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository.js';
 
 import { UniqueEntityID } from '@/core/entities/unique-entity-id.js';
+import { NotAllowedError } from '@/domain/forum/application/use-cases/errors/not-allowed-error.js';
 
 import { EditQuestionUseCase } from './edit-question.js';
-import { NotAllowedError } from './errors/not-allowed-error.js';
 
 let inMemoryQuestionsRepository: InMemoryQuestionsRepository;
 let inMemoryQuestionAttachmentsRepository: InMemoryQuestionAttachmentsRepository;
@@ -14,9 +14,11 @@ let sut: EditQuestionUseCase;
 
 describe('Edit Question', () => {
   beforeEach(() => {
-    inMemoryQuestionsRepository = new InMemoryQuestionsRepository();
     inMemoryQuestionAttachmentsRepository =
       new InMemoryQuestionAttachmentsRepository();
+    inMemoryQuestionsRepository = new InMemoryQuestionsRepository(
+      inMemoryQuestionAttachmentsRepository,
+    );
 
     sut = new EditQuestionUseCase(
       inMemoryQuestionsRepository,
@@ -57,6 +59,7 @@ describe('Edit Question', () => {
       title: 'Pergunta teste',
       content: 'Conteúdo teste',
     });
+
     expect(
       inMemoryQuestionsRepository.items[0]?.attachments.currentItems,
     ).toHaveLength(2);
